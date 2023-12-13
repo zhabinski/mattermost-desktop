@@ -1,7 +1,12 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import os from 'os';
+
 import {getFocusAssist, isPriority} from 'windows-focus-assist';
+
+const osRelease = os.release();
+const isRunningOnWin10 = process.platform === 'win32' && parseFloat(osRelease) >= 10;
 
 /**
     -2: NOT_SUPPORTED,
@@ -11,7 +16,7 @@ import {getFocusAssist, isPriority} from 'windows-focus-assist';
     2: ALARMS_ONLY
 */
 function getWindowsDoNotDisturb() {
-    if (process.platform !== 'win32') {
+    if (!isRunningOnWin10) {
         return false;
     }
 
